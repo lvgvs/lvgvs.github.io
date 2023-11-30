@@ -1,2 +1,1 @@
-# lvgvs.github.io
-Check out my portfolio!
+# [Check out my portfolio!](https://lvgvs.github.io)
