@@ -115,7 +115,7 @@ const Header = () => {
           />
         }
         aria-label="Ir para minha página no GitHub"
-        onClick={() => window.open("https://github.com/lvgvspe", "_blank")}
+        onClick={() => window.open("https://github.com/lvgvs", "_blank")}
       >
         GitHub
       </Button>
@@ -157,7 +157,7 @@ const Header = () => {
                 <Link
                   isExternal
                   aria-label="Ir para minha página no GitHub"
-                  href="https://github.com/lvgvspe"
+                  href="https://github.com/lvgvs"
                 >
                   <Icon
                     as={AiFillGithub}
