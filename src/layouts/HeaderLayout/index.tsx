@@ -187,7 +187,7 @@ const Header = () => {
                 </Box>
                 <Box>
                       <Box
-                      justifySelf="end"
+                      justifySelf="flex-end"
                       style={{overflow: "hidden", textOverflow: "ellipsis",}}
                       >
                         Chave Aleatória
@@ -235,12 +235,12 @@ const Header = () => {
 
   const criptoContent = (
     <>
-      <Menu preventOverflow={false}>
+      <Menu>
         <MenuButton as={Button}>
           Criptomoedas
         </MenuButton>
         <MenuList display="flex" flexDir="column" alignItems="center" bg="transparent" border="0px">
-          <iframe src={`https://nowpayments.io/embeds/donation-widget?api_key=${process.env.NEXT_PUBLIC_NOW_API || ""}&source=lk_donation&medium=referral`} style={{overflowY: "hidden"}} width="354" height="625"></iframe>
+          <iframe src={`https://nowpayments.io/embeds/donation-widget?api_key=${process.env.NEXT_PUBLIC_NOW_API || ""}&source=lk_donation&medium=referral`} width="354" height="625"></iframe>
         </MenuList>
       </Menu>
       <br />
@@ -259,15 +259,15 @@ const Header = () => {
         w="full"
         overflowY="hidden"
       >
-        <chakra.div h="4.5rem" mx="auto" maxW="1200px">
+        <chakra.div h="5rem" mx="auto" maxW="1200px">
           <Flex w="full" h="full" px="6" align="center" justify="space-between">
             <Flex align="center">
               <Link href="/">
                 <HStack>
                   <Image
-                    w="35%"
+                    w={{ base: "45%", md: "30%" }}
                     src="lt.png"
-                    mt={{ base: "0", md: "7%" }}
+                    mt={{ base: "2%", md: "2%" }}
                   />
                 </HStack>
               </Link>
