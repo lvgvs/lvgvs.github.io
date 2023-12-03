@@ -265,8 +265,9 @@ const Header = () => {
               <Link href="/">
                 <HStack>
                   <Image
-                    w="12vh"
+                    w="35%"
                     src="lt.png"
+                    mt={{ base: "0", md: "7%" }}
                   />
                 </HStack>
               </Link>
