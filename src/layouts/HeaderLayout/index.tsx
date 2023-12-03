@@ -9,13 +9,23 @@ import {
   IconButton,
   Image,
   Link,
+  Menu,
+  MenuButton,
+  MenuList,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   VStack,
   chakra,
   useColorMode,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useViewportScroll } from "framer-motion";
+import { useScroll } from "framer-motion";
 import { FaHeart, FaMoon, FaSun } from "react-icons/fa";
 import {
   AiFillGithub,
@@ -38,20 +48,20 @@ const Header = () => {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const [y, setY] = React.useState(0);
   const height = ref.current ? ref.current.getBoundingClientRect() : 0;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { scrollY } = useViewportScroll();
+  const { scrollY } = useScroll();
   React.useEffect(() => {
-    return scrollY.onChange(() => setY(scrollY.get()));
+    return (setY(scrollY.get()));
   }, [scrollY]);
 
   const SponsorButton = (
     <Box
       display={{ base: "none", md: "flex" }}
       alignItems="center"
-      as="a"
+      as="button"
       aria-label="Clique aqui para fazer uma doação"
-      href={""}
-      target="_blank"
+      onClick={onOpen}
       rel="noopener noreferrer"
       bg="gray.50"
       borderWidth="1px"
@@ -119,9 +129,125 @@ const Header = () => {
       >
         GitHub
       </Button>
+      <Button
+        w="full"
+        as="a"
+        variant="solid"
+        transition="color 0.2s"
+        leftIcon={
+          <Icon
+            as={FaHeart} 
+            display="block"
+            w="5"
+            h="5"
+            color="red.500"
+            _hover={{ color: "gray.600" }}
+          />
+        }
+        aria-label="Ir para minha página no GitHub"
+        onClick={onOpen}
+        target="_blank"
+      >
+        Doar
+      </Button>
     </VStack>
   );
+
+  const pixContent = (
+    <>
+      <Menu>
+        <MenuButton as={Button}>
+          Pix
+        </MenuButton>
+        <MenuList w="70%" p={4} display="flex" flexDir="column" alignItems="center">
+          <Image
+            w="80%"
+            src="pix.png"
+          />
+          <Box
+            display="flex"
+            flexDir="column"
+            flexWrap="nowrap"
+            w="100%"
+            pt={4}
+            mt={5}
+            >
+            <Box
+              id="copy-alias"
+              display="flex"
+              flexDir="row"
+              justifyContent="space-between"
+              w="auto"
+              pb={3}
+              >
+                <Box
+                justifySelf="flex-start"
+                >
+                  Chave Pix
+                </Box>
+                <Box>
+                      <Box
+                      justifySelf="end"
+                      style={{overflow: "hidden", textOverflow: "ellipsis",}}
+                      >
+                        Chave Aleatória
+                      </Box>
+                </Box>
+            </Box>
+            <Box
+            display="flex"
+            flexDir="row"
+            justifySelf="flex-end"
+            alignSelf="flex-end"
+            style={{overflow: "hidden", textOverflow: "ellipsis",}}
+            pb={3}
+            >
+              c1df727c-fd84-4358-9d98-2363c802b764
+            </Box>
+            <Box
+              display="flex"
+              flexDir="row"
+              justifyContent="space-between"
+              w="auto"
+              pb={3}
+            >
+                <Box justifySelf="flex-start" fontWeight="bold">Nome</Box>
+                <Box justifySelf="flex-end">Lucas Camargo Batista</Box>
+            </Box>
+            <Box display="flex" flexDir="row" justifyContent="space-between" w="auto" pb={3}>
+                <Box justifySelf="flex-start" fontWeight="bold">CPF</Box>
+                <Box justifySelf="flex-end">•••.018.881-••</Box>
+            </Box>
+            <Box display="flex" flexDir="row" justifyContent="space-between" w="auto" pb={3}>
+                <Box justifySelf="flex-start" fontWeight="bold">Banco</Box>
+                <Box justifySelf="flex-end">260 - Nu Pagamentos S.A.</Box>
+            </Box>
+            <Box display="flex" flexDir="row" justifyContent="space-between" w="auto" pb={3}>
+                <Box justifySelf="flex-start" fontWeight="bold">Identificador</Box>
+                <Box justifySelf="flex-end">ikN27kbqj1</Box>
+            </Box>
+          </Box>
+        </MenuList>
+      </Menu>
+      <br />
+    </>
+  );
+
+  const criptoContent = (
+    <>
+      <Menu preventOverflow={false}>
+        <MenuButton as={Button}>
+          Criptomoedas
+        </MenuButton>
+        <MenuList display="flex" flexDir="column" alignItems="center" bg="transparent" border="0px">
+          <iframe src="https://nowpayments.io/embeds/donation-widget?api_key=X7HHAGJ-DE0MFG1-GGEPPA1-WCD2V6E&source=lk_donation&medium=referral" style={{overflowY: "hidden"}} width="354" height="625"></iframe>
+        </MenuList>
+      </Menu>
+      <br />
+    </>
+  );
   return (
+    <>
     <Box pos="relative">
       <chakra.header
         ref={ref}
@@ -139,7 +265,7 @@ const Header = () => {
               <Link href="/">
                 <HStack>
                   <Image
-                    w="20%"
+                    w="12vh"
                     src="lt.png"
                   />
                 </HStack>
@@ -153,22 +279,19 @@ const Header = () => {
               align="center"
               color="gray.400"
             >
-              <HStack spacing="5" display={{ base: "none", md: "flex" }}>
-                <Link
-                  isExternal
-                  aria-label="Ir para minha página no GitHub"
-                  href="https://github.com/lvgvs"
-                >
-                  <Icon
-                    as={AiFillGithub}
-                    display="block"
-                    transition="color 0.2s"
-                    w="5"
-                    h="5"
-                    _hover={{ color: "gray.600" }}
-                  />
-                </Link>
-              </HStack>
+              <IconButton
+                as="a"
+                href="https://github.com/lvgvs"
+                target="_blank"
+                size="md"
+                fontSize="lg"
+                aria-label="Ir para minha página no GitHub"
+                variant="ghost"
+                color="current"
+                ml={{ base: "0", md: "3" }}
+                // onClick={toggleMode}
+                icon={<AiFillGithub />}
+              />
               <IconButton
                 size="md"
                 fontSize="lg"
@@ -179,8 +302,21 @@ const Header = () => {
                 onClick={toggleMode}
                 icon={<SwitchIcon />}
               />
-              {SponsorButton}
               <IconButton
+                size="md"
+                display={{ base: "flex", md: "none" }}
+                fontSize="lg"
+                aria-label={`Switch to ${text} mode`}
+                variant="ghost"
+                color="red.500"
+                ml={{ base: "0", md: "3" }}
+                onClick={onOpen}
+                icon={<FaHeart />}
+              >
+                Doar
+              </IconButton>
+              {SponsorButton}
+              {/* <IconButton
                 display={{ base: "flex", md: "none" }}
                 aria-label="Open menu"
                 fontSize="20px"
@@ -189,13 +325,36 @@ const Header = () => {
                 variant="ghost"
                 icon={<AiOutlineMenu />}
                 onClick={mobileNav.onOpen}
-              />
+              /> */}
             </Flex>
           </Flex>
           {MobileNavContent}
         </chakra.div>
       </chakra.header>
     </Box>
+
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Doar</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Box
+          display="Flex"
+          flexDir="column"
+          >
+            {criptoContent}
+            {pixContent}
+          </Box>
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme='brand' mr={3} onClick={onClose}>
+            Fechar
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+    </>
   );
 };
 
